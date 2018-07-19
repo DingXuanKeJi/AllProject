@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//src/com/studentcard/ws/server/SxlService.java=UTF-8
+encoding//src/com/studentcard/ws/server/SxlServiceImplService.java=UTF-8
+encoding//src/com/studentcard/ws/server/SxlServiceImplServiceLocator.java=UTF-8
+encoding//src/com/studentcard/ws/server/SxlServiceImplServiceSoapBindingImpl.java=UTF-8
+encoding//src/com/studentcard/ws/server/SxlServiceImplServiceSoapBindingSkeleton.java=UTF-8
+encoding//src/com/studentcard/ws/server/SxlServiceImplServiceSoapBindingStub.java=UTF-8

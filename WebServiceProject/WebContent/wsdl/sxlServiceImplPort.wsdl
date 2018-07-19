@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://server.ws.studentcard.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="sxlServiceImplService" targetNamespace="http://server.ws.studentcard.com/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://server.ws.studentcard.com/" version="1.0">
+			<xs:element xmlns:ns1="http://server.ws.studentcard.com/" name="PushDeviceLowbat" type="ns1:PushDeviceLowbat"/>
+			<xs:complexType name="PushDeviceLowbat">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns2="http://server.ws.studentcard.com/" name="PushDeviceLowbatResponse" type="ns2:PushDeviceLowbatResponse"/>
+			<xs:complexType name="PushDeviceLowbatResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns3="http://server.ws.studentcard.com/" name="PushDeviceCallnote" type="ns3:PushDeviceCallnote"/>
+			<xs:complexType name="PushDeviceCallnote">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns4="http://server.ws.studentcard.com/" name="PushDeviceCallnoteResponse" type="ns4:PushDeviceCallnoteResponse"/>
+			<xs:complexType name="PushDeviceCallnoteResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns5="http://server.ws.studentcard.com/" name="PushDeviceFence" type="ns5:PushDeviceFence"/>
+			<xs:complexType name="PushDeviceFence">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns6="http://server.ws.studentcard.com/" name="PushDeviceFenceResponse" type="ns6:PushDeviceFenceResponse"/>
+			<xs:complexType name="PushDeviceFenceResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns7="http://server.ws.studentcard.com/" name="PushDeviceSOS" type="ns7:PushDeviceSOS"/>
+			<xs:complexType name="PushDeviceSOS">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns8="http://server.ws.studentcard.com/" name="PushDeviceSOSResponse" type="ns8:PushDeviceSOSResponse"/>
+			<xs:complexType name="PushDeviceSOSResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns9="http://server.ws.studentcard.com/" name="PushDeviceCHECK" type="ns9:PushDeviceCHECK"/>
+			<xs:complexType name="PushDeviceCHECK">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns10="http://server.ws.studentcard.com/" name="PushDeviceCHECKResponse" type="ns10:PushDeviceCHECKResponse"/>
+			<xs:complexType name="PushDeviceCHECKResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns11="http://server.ws.studentcard.com/" name="PushDeviceOverdue" type="ns11:PushDeviceOverdue"/>
+			<xs:complexType name="PushDeviceOverdue">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns12="http://server.ws.studentcard.com/" name="PushDeviceOverdueResponse" type="ns12:PushDeviceOverdueResponse"/>
+			<xs:complexType name="PushDeviceOverdueResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns13="http://server.ws.studentcard.com/" name="PushDeviceStep" type="ns13:PushDeviceStep"/>
+			<xs:complexType name="PushDeviceStep">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns14="http://server.ws.studentcard.com/" name="PushDeviceStepResponse" type="ns14:PushDeviceStepResponse"/>
+			<xs:complexType name="PushDeviceStepResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns15="http://server.ws.studentcard.com/" name="PushDeviceStatic" type="ns15:PushDeviceStatic"/>
+			<xs:complexType name="PushDeviceStatic">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns16="http://server.ws.studentcard.com/" name="PushDeviceStaticResponse" type="ns16:PushDeviceStaticResponse"/>
+			<xs:complexType name="PushDeviceStaticResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns17="http://server.ws.studentcard.com/" name="PushDeviceCurpos" type="ns17:PushDeviceCurpos"/>
+			<xs:complexType name="PushDeviceCurpos">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns18="http://server.ws.studentcard.com/" name="PushDeviceCurposResponse" type="ns18:PushDeviceCurposResponse"/>
+			<xs:complexType name="PushDeviceCurposResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns19="http://server.ws.studentcard.com/" name="PushWriteDeviceResult" type="ns19:PushWriteDeviceResult"/>
+			<xs:complexType name="PushWriteDeviceResult">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element xmlns:ns20="http://server.ws.studentcard.com/" name="PushWriteDeviceResultResponse" type="ns20:PushWriteDeviceResultResponse"/>
+			<xs:complexType name="PushWriteDeviceResultResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="PushDeviceStaticResponse">
+		<wsdl:part element="tns:PushDeviceStaticResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceLowbat">
+		<wsdl:part element="tns:PushDeviceLowbat" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceFence">
+		<wsdl:part element="tns:PushDeviceFence" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceSOS">
+		<wsdl:part element="tns:PushDeviceSOS" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceSOSResponse">
+		<wsdl:part element="tns:PushDeviceSOSResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceOverdue">
+		<wsdl:part element="tns:PushDeviceOverdue" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceCHECKResponse">
+		<wsdl:part element="tns:PushDeviceCHECKResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceFenceResponse">
+		<wsdl:part element="tns:PushDeviceFenceResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceOverdueResponse">
+		<wsdl:part element="tns:PushDeviceOverdueResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceCallnoteResponse">
+		<wsdl:part element="tns:PushDeviceCallnoteResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceCallnote">
+		<wsdl:part element="tns:PushDeviceCallnote" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceCHECK">
+		<wsdl:part element="tns:PushDeviceCHECK" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceCurposResponse">
+		<wsdl:part element="tns:PushDeviceCurposResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceStep">
+		<wsdl:part element="tns:PushDeviceStep" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceLowbatResponse">
+		<wsdl:part element="tns:PushDeviceLowbatResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceStepResponse">
+		<wsdl:part element="tns:PushDeviceStepResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceStatic">
+		<wsdl:part element="tns:PushDeviceStatic" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushDeviceCurpos">
+		<wsdl:part element="tns:PushDeviceCurpos" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushWriteDeviceResult">
+		<wsdl:part element="tns:PushWriteDeviceResult" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="PushWriteDeviceResultResponse">
+		<wsdl:part element="tns:PushWriteDeviceResultResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:portType name="sxlService">
+		<wsdl:operation name="PushDeviceLowbat">
+			<wsdl:input message="tns:PushDeviceLowbat" name="PushDeviceLowbat"/>
+			<wsdl:output message="tns:PushDeviceLowbatResponse" name="PushDeviceLowbatResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceCallnote">
+			<wsdl:input message="tns:PushDeviceCallnote" name="PushDeviceCallnote"/>
+			<wsdl:output message="tns:PushDeviceCallnoteResponse" name="PushDeviceCallnoteResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceFence">
+			<wsdl:input message="tns:PushDeviceFence" name="PushDeviceFence"/>
+			<wsdl:output message="tns:PushDeviceFenceResponse" name="PushDeviceFenceResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceSOS">
+			<wsdl:input message="tns:PushDeviceSOS" name="PushDeviceSOS"/>
+			<wsdl:output message="tns:PushDeviceSOSResponse" name="PushDeviceSOSResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceCHECK">
+			<wsdl:input message="tns:PushDeviceCHECK" name="PushDeviceCHECK"/>
+			<wsdl:output message="tns:PushDeviceCHECKResponse" name="PushDeviceCHECKResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceOverdue">
+			<wsdl:input message="tns:PushDeviceOverdue" name="PushDeviceOverdue"/>
+			<wsdl:output message="tns:PushDeviceOverdueResponse" name="PushDeviceOverdueResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceStep">
+			<wsdl:input message="tns:PushDeviceStep" name="PushDeviceStep"/>
+			<wsdl:output message="tns:PushDeviceStepResponse" name="PushDeviceStepResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceStatic">
+			<wsdl:input message="tns:PushDeviceStatic" name="PushDeviceStatic"/>
+			<wsdl:output message="tns:PushDeviceStaticResponse" name="PushDeviceStaticResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceCurpos">
+			<wsdl:input message="tns:PushDeviceCurpos" name="PushDeviceCurpos"/>
+			<wsdl:output message="tns:PushDeviceCurposResponse" name="PushDeviceCurposResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="PushWriteDeviceResult">
+			<wsdl:input message="tns:PushWriteDeviceResult" name="PushWriteDeviceResult"/>
+			<wsdl:output message="tns:PushWriteDeviceResultResponse" name="PushWriteDeviceResultResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="sxlServiceImplServiceSoapBinding" type="tns:sxlService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="PushDeviceLowbat">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceLowbat">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceLowbatResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceCallnote">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceCallnote">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceCallnoteResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceFence">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceFence">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceFenceResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceSOS">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceSOS">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceSOSResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceCHECK">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceCHECK">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceCHECKResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceOverdue">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceOverdue">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceOverdueResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceStep">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceStep">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceStepResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceStatic">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceStatic">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceStaticResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushDeviceCurpos">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushDeviceCurpos">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushDeviceCurposResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="PushWriteDeviceResult">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="PushWriteDeviceResult">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PushWriteDeviceResultResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="sxlServiceImplService">
+		<wsdl:port binding="tns:sxlServiceImplServiceSoapBinding" name="sxlServiceImplPort">
+			<soap:address location="http://localhost:8080/WebServiceProject/services/sxlServiceImplPort"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

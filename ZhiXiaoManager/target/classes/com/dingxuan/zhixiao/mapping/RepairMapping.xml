@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingxuan.zhixiao.dao.RepairMapper" >
+
+	<select id="repair" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call leave_myRecord(#{uid},#{sid},#{cid},#{startTime},#{endTime})} 
+	</select>
+	
+	<select id="repairMyRecord" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call repair_myRecord(#{uid},#{sid},#{startTime},#{endTime})} 
+	</select>
+		
+	<select id="repairKnowMe" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_knowMe(#{carbon},#{carbon_sid})}
+	</select>
+	
+	<select id="repairMyApprovals" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_myApprovals(#{audit},#{audit_sid})}
+	</select>
+	
+	<select id="repairDetailsOfMyself_Basic" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_detailsOfMyself_basic(#{apply_id})}
+	</select>
+	
+	<select id="repairDetailsOfMyself_WhoKnow" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_detailsOfMyself_whoKnow(#{apply_id})}
+	</select>
+	
+	<select id="repairDetailsOfMyself_Process" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_detailsOfMyself_process(#{apply_id})}
+	</select>
+	
+	<select id="repairCount" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_count(#{sid},#{startTime},#{endTime})}
+	</select>
+	
+	<select id="repairDetailsOfCount" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_detailsOfCount(#{sid},#{startTime},#{endTime})}
+	</select>
+	
+	<select id="repairExplainOfDispose" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_explainOfDispose(#{audit},#{sid},#{apply_id},#{msg})}
+	</select>
+	
+	<select id="repairExplainOfReject" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_explainOfReject(#{audit},#{sid},#{apply_id},#{msg})}
+	</select>
+	
+	<select id="repairExplainOfTransfer" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_explainOfTransfer(#{previous_audit},#{audit},#{sid},#{apply_id},#{msg})}
+	</select>
+
+	<select id="repairFinish" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_finish(#{audit},#{sid},#{apply_id})}
+	</select>
+
+	<select id="repairApplyBasicAndProcess" parameterType="map" resultType="Integer" statementType="CALLABLE">
+		{call repair_apply_basicAndProcess(#{sid},#{uid},#{audit},#{name},#{address},#{note},#{priority},#{mobile})}
+	</select>
+	
+	<select id="repairApplyWhoKnow" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call repair_apply_whoKnow(#{sid},#{uid},#{apply_id},#{carbon})}
+	</select>
+
+
+
+
+</mapper>

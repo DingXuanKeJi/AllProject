@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingxuan.zhixiao.dao.DeviceMapper" >
+	
+	<!-- 	验证appKey -->
+	<select id="keyVerfication" parameterType="java.lang.String" resultType="java.lang.String">
+		select appSecret from uchome_device_key_secret where appKey = #{appKey}
+	</select>
+
+	<!--******************************平台端主动发送的数据  ↓****************************** -->
+
+	<!-- 	推送设备电子围栏触发报警 -->
+	<select id="pushDeviceFence" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceFence(#{DEVICENUM},#{LO},#{LA},#{POSDESC},#{LOCTIME},#{BAT},#{GSM},#{GPS},#{TYPE},#{FENCETYPE},#{FENCENID},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送设备电量不足报警 -->
+	<select id="PushDeviceLowbat" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceLowbat(#{DEVICENUM},#{LO},#{LA},#{POSDESC},#{LOCTIME},#{BAT},#{GSM},#{GPS},#{TYPE},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送学生步数 -->
+	<select id="PushDeviceStep" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceStep(#{DEVICENUM},${STEPS},#{TIME},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送学生考勤记录 -->
+	<select id="PushDeviceCHECK" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceCHECK(#{DEVICENUM},#{LO},#{LA},#{POSDESC},#{LOCTIME},#{BAT},#{GSM},#{GPS},#{TYPE},#{SCHOOLID},#{DIR},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 学生 SOS 求救记录上报 -->
+	<select id="PushDeviceSOS" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceSOS(#{DEVICENUM},#{LO},#{LA},#{POSDESC},#{LOCTIME},#{BAT},#{GSM},#{GPS},#{TYPE},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送设备脱落上报 -->
+	<select id="PushDeviceStatic" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceStatic(#{DEVICENUM},#{LO},#{LA},#{POSDESC},#{LOCTIME},#{BAT},#{GSM},#{GPS},#{TYPE},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送设备最新位置 -->
+	<select id="PushDeviceCurpos" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceCurpos(#{DEVICENUM},#{LO},#{LA},#{POSDESC},#{LOCTIME},#{BAT},#{GSM},#{GPS},#{TYPE},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送设备通话记录 -->
+	<select id="PushDeviceCallnote" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceCallnote(#{DEVICENUM},#{CALLTIME},#{LENGTH},#{PHONE},#{CALLDIR},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+	
+	<!-- 推送设备欠费短信 -->
+	<select id="PushDeviceOverdue" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushDeviceOverdue(#{DEVICENUM},#{DATA},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+
+	<!-- 推送某命令的设置结果 -->
+	<select id="PushWriteDeviceResult" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call device_pushWriteDeviceResult(#{DEVICENUM},#{CMDTIMESTAMP},#{CMDNAME},#{CMDRESULT},#{KEY},#{SIGN},${TIMESTAMP})} 
+	</select>
+	
+	<!--******************************知校端向设备发送的数据，保存并使用  ↓****************************** -->
+
+	<!-- 学校经纬度设置 -->
+	<select id="PushSchoolCenter" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_pushSchoolCenter(#{DEVICENUM},#{LO},#{LA},#{RADIUS},#{SCHOOLID},#{SCHOOLRFIDS},#{SCHOOLNAME},#{OPTTYPE},#{KEY},#{SIGN},${TIMESTAMP})}
+	</select>
+	
+	<!-- 圆形围栏数据设置 -->
+	<select id="PushFenceRound" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_pushFenceRound(#{DEVICENUM},#{LO},#{LA},#{RADIUS},#{FENCEID},#{FENCETYPE},#{FENCENAME},#{OPTTYPE},#{KEY},#{SIGN},${TIMESTAMP})}
+	</select>
+	
+	<!-- 亲情号码数据设置 -->
+	<select id="PushDeviceFamily" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_pushDeviceFamily(#{DEVICENUM},#{PHONE},#{NAME},#{POS},#{FAMILYKEY},#{OPTTYPE},#{KEY},#{SIGN},${TIMESTAMP})}
+	</select>
+
+	<!-- 设置设备上报位置的时间间隔 -->
+	<select id="PushDevPosInterval" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_pushDevPosInterval(#{DEVICENUM},#{INTERVAL},#{KEY},#{SIGN},${TIMESTAMP})}
+	</select>
+
+	<!-- 设置设备工作模式 -->
+	<select id="PushDevWorkMode" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_pushDevWorkMode(#{DEVICENUM},#{MODE},#{KEY},#{SIGN},${TIMESTAMP})}
+	</select>
+	
+	
+	<!--******************************知校端对数据库的操作  ↓****************************** -->
+	
+	<!-- 学生与学生证关系的操作 -->
+	<select id="StudentBindingDevice" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_studentBindingDevice(#{STUDENTID},#{DEVICENUM},#{OPTTYPE})}
+	</select>
+	
+	<!-- 查询学生对应的设备编号 -->
+	<select id="FindStudentDevice" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_findStudentDevice(#{studentid})}
+	</select>
+	
+	<!-- 查询设备的最新位置 -->
+	<select id="ShowDeviceCurpos" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceCurpos(#{devicenum})}
+	</select>
+	
+	<!-- 查询设备的轨迹 -->
+	<select id="ShowDeviceTrail" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceTrail(#{devicenum},#{startTime},#{endTime})}
+	</select>
+	
+	<!-- 查询设备所设置的围栏的信息 -->
+	<select id="ShowDeviceFence" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceFence(#{devicenum})}
+	</select>
+	
+	<!-- 查询设备所设置的亲情号信息 -->
+	<select id="ShowDeivceFamily" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeivceFamily(#{devicenum})}
+	</select>
+	
+	<!-- 查询设备所设置的上报位置时间间隔-->
+	<select id="ShowDevPosInterval" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDevPosInterval(#{devicenum})}
+	</select>
+	
+	<!-- 查询设备工作模式 -->
+	<select id="ShowDevWorkMode" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDevWorkMode(#{devicenum})}
+	</select>
+	
+	<!-- 查询最新的学校位置数据 -->
+	<select id="ShowSchoolCenter" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showSchoolCenter(#{schoolid})}
+	</select>
+	
+	<!-- 根据学校的id查询所有本学校下未被设置过学校位置的设备号 -->
+	<select id="FindStudentForPushCenter" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_findStudentForPushCenter(#{schoolId})}
+	</select>
+	
+	<!-- 根据学校id查询所有本学校下已设置过学校位置的设备号 -->
+	<select id="FindStuForUpdateCenterVersion" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_findStuForUpdateCenterVersion(#{schoolId})}
+	</select>
+	
+	<!-- 根据学校id查询所有本学校下已设置过学校位置 但非最新版本的设备号 -->
+	<select id="FindStuForUpdateCenterToNewest" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_findStuForUpdateCenterToNewest(#{schoolId})}
+	</select>
+	
+	<!-- 根据学校id查询所有本学校下已设置过学校位置而且是最新版本的设备号 -->
+	<select id="FindStuForDelCenter" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_findStuForDelCenter(#{schoolId})}
+	</select>
+	
+	
+	
+	
+	<!--*******************************************平台端回调方法的逻辑执行************************************************** -->
+	
+	<!-- 回调：设置学校经纬度 -->
+	<select id="ResultOfPushSchoolCenter" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_resultOfPushSchoolCenter(#{DEVICENUM},${CMDTIMESTAMP},${CMDRESULT})}
+	</select>
+		
+	<!-- 回调：设置学校经纬度 -->
+	<select id="ResultOfPushFenceRound" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_resultOfPushFenceRound(#{DEVICENUM},${CMDTIMESTAMP},${CMDRESULT})}
+	</select>	
+	
+	<!-- 回调：设置学校经纬度 -->
+	<select id="ResultOfPushDeviceFamily" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_resultOfPushDeviceFamily(#{DEVICENUM},${CMDTIMESTAMP},${CMDRESULT})}
+	</select>
+		
+	<!-- 回调：设置学校经纬度 -->
+	<select id="ResultOfPushDevPosInterval" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_resultOfPushDevPosInterval(#{DEVICENUM},${CMDTIMESTAMP},${CMDRESULT})}
+	</select>
+		
+	<!-- 回调：设置学校经纬度 -->
+	<select id="ResultOfPushDevWorkMode" parameterType="Integer" resultType="java.lang.String" statementType="CALLABLE">
+		{call device_resultOfPushDevWorkMode(#{DEVICENUM},${CMDTIMESTAMP},${CMDRESULT})}
+	</select>
+		
+
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingxuan.zhixiao.dao.LeaveMapper" >
+
+<select id="myRecord" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_myRecord(#{sid},#{uid},#{startTime},#{endTime})} 
+</select>
+
+<select id="knowMe" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_knowMe(#{sid},#{uid})} 
+</select>
+	
+<select id="myApproval" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_myApproval(#{sid},#{uid})} 
+</select>	
+	
+<select id="knowList" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_knowList(#{sid},#{uid},#{applyid})} 
+</select>
+	
+<select id="approverList" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_approverList(#{sid},#{uid},#{applyid})} 
+</select>
+
+<select id="leaveSubmit" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_submit(#{name},#{content},#{uid},#{sid},#{day},#{hour},#{minute},#{atype},#{cid},#{start_time},#{end_time},#{zuid},#{suid},#{msg})}
+</select>
+
+<select id="leaveStatistics" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_statistics(#{sid},#{startTime},#{endTime})}
+</select>	
+	
+<select id="leaveDetails" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_details(#{applyid})}
+</select>	
+	
+<select id="leaveDetailsProcess" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_detailsProcess(#{applyid})}
+</select>	
+	
+<select id="selectStaff" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_selectStaff(#{sid},#{uid},#{grade})}
+</select>	
+		
+<select id="leaveIncrease" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_increase(#{sid},#{uid},#{applyid},#{realEndTime})}
+</select>
+	
+<select id="leaveSick" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_sick(#{sid},#{uid},#{applyid},#{realEndTime})}
+</select>	
+
+<select id="leaveRevoke" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_revoke(#{sid},#{uid},#{applyid})}
+</select>
+
+<select id="leaveTurn" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_turn(#{sid},#{uid},#{applyid},#{msg})}
+</select>
+
+<select id="leaveReject" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_reject(#{sid},#{uid},#{applyid},#{msg})}
+</select>
+
+<select id="leaveAgreel" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_agreel(#{sid},#{uid},#{applyid})}
+</select>
+
+<select id="leaveReapply" parameterType="map" resultType="map" statementType="CALLABLE">
+	 {call leave_reapply(#{sid},#{uid},#{applyid})}
+</select>
+
+
+	
+	
+	
+</mapper>
