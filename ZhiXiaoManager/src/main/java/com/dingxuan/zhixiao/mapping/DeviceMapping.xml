@@ -56,14 +56,14 @@
 
 	<!-- 推送某命令的设置结果 -->
 	<select id="PushWriteDeviceResult" parameterType="map" resultType="map" statementType="CALLABLE">
-		 {call device_pushWriteDeviceResult(#{DEVICENUM},#{CMDTIMESTAMP},#{CMDNAME},#{CMDRESULT},#{KEY},#{SIGN},${TIMESTAMP})} 
+		 {call device_pushWriteDeviceResult(#{DEVICENUM},${CMDTIMESTAMP},#{CMDNAME},#{CMDRESULT},#{KEY},#{SIGN},${TIMESTAMP})} 
 	</select>
 	
 	<!--******************************知校端向设备发送的数据，保存并使用  ↓****************************** -->
 
 	<!-- 学校经纬度设置 -->
 	<select id="PushSchoolCenter" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_pushSchoolCenter(#{DEVICENUM},#{LO},#{LA},#{RADIUS},#{SCHOOLID},#{SCHOOLRFIDS},#{SCHOOLNAME},#{OPTTYPE},#{KEY},#{SIGN},${TIMESTAMP})}
+		{call device_pushSchoolCenter(#{DEVICENUM},#{LO},#{LA},#{RADIUS},#{SCHOOLID},#{SCHOOLRFIDS},#{SCHOOLNAME},#{OPTTYPE},#{KEY},#{SIGN},${TIMESTAMP},${VERSION})}
 	</select>
 	
 	<!-- 圆形围栏数据设置 -->

@@ -294,6 +294,8 @@ public class DeviceServiceImpl implements DeviceService{
 		
 		Map<Object,Object> map = jsonToMap(jsonStr);
 		
+		deviceMapper.PushWriteDeviceResult(map);
+		
 		//此处需要进行key,sign,timestamp的验证
 		String strOrder = "DEVICENUM,CMDTIMESTAMP,CMDNAME,CMDRESULT";
 		int verRes = DeviceVerification.allVerification(map, strOrder);
@@ -317,7 +319,7 @@ public class DeviceServiceImpl implements DeviceService{
 				}else if(cmdName.equals("PushDevWorkMode")) {
 					deviceMapper.ResultOfPushDevWorkMode(jsonMap);
 				}else {
-					return jsonResult = CardConstants.SERVICE_ERROR;
+					return jsonResult = CardConstants.CMDNAME_ERROR;
 				}
 				deviceMapper.PushWriteDeviceResult(map);
 				jsonResult = CardConstants.RESULT_SUCCESS;
@@ -601,50 +603,6 @@ public class DeviceServiceImpl implements DeviceService{
 		return resMap;
 	}
 
-	/*
-	//设置学校经纬度（按学校设置）
-	@Override
-	public Map<Object, Object> PushSchoolCenterForAll(String jsonStr) {
-		Map<Object, Object> resultMap = new HashMap<>();	//用于返回的结果集
-		List<String> falseNum = new ArrayList<>();			//用于记录未设置成功的设备号
-		Map<Object, Object> jsonMap = jsonToMap(jsonStr);	//将所接收的jsonStr转换成Map
-		
-		String schoolId = (String) jsonMap.get("SCHOOLID");	//取出所要设置的学校ID
-		//根据学校ID取出该学校所有学生对应的devicenum,返回一个List
-		//循环list，将每个devicenum放入jsonMap中后，调用单一设置学校经纬度的方法
-		//全部执行完成后，给前台返回对应信息
-		List<Map<Object, Object>> deviceList = deviceMapper.FindDeviceOfSchool(schoolId);	//根据学校ID取回所有对应的DEVICENUM
-		for(int i = 0;i < deviceList.size(); i++) {			//循环所有的DEVICENUM
-			jsonMap.put("DEVICENUM", deviceList.get(i).get("devicenum"));	//将DEVICENUM放入需要传给平台方的数据中
-			
-			String jsonRes = JSONUtils.toJSONString(jsonMap).toString();	//转换成String格式
-			//调用平台端的接口，传递数据
-			String platformRes = "";						//用于接收平台端返回的数据
-			platformRes = CallShangXueLe.callShangxuela(CardConstants.PLATFORM_URL, "PushSchoolCenter", jsonRes);	//调用平台端接口进行学校经纬度的设置
-			Map<Object,Object> platformMap = jsonToMap(platformRes);		//将平台返回的字符串转换为Map格式
-			if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
-				//判断返回的RESULT = 0 ,即调用成功时,将这组数据同步到知校端DB中 并将返回的String返回给前台，否则将返回的String直接返回给前台
-				deviceMapper.PushSchoolCenter(jsonMap);
-			}else {
-				//设置时失败，将失败的设备号保存到falseNum中
-				falseNum.add((String) deviceList.get(i).get("devicenum"));
-			}
-		}
-		if(falseNum.size() == 0) {
-			resultMap.put("RESULT", "0");
-			resultMap.put("ERRORCODE", "0");
-			resultMap.put("ERRDESC", "");
-			resultMap.put("FALSELIST", falseNum);
-		}else {
-			resultMap.put("RESULT", "1");
-			resultMap.put("ERRORCODE", "255");
-			resultMap.put("ERRDESC", "数据设置时出现错误，出错设备请查看列表。");
-			resultMap.put("FALSELIST", falseNum);
-		}
-		
-		return resultMap;
-	}
-	*/
 	
 	//查询最新的学校经纬度数据
 	@Override

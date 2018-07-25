@@ -24,5 +24,6 @@ public class CardConstants {
 	//删除学校下最新位置信息的设备  返回数据
 	public static final String DELETE_CENTER_SUCCESS = "{\"RESULT\":\"0\",\"ERRORCODE\":\"0\",\"ERRORDESC\":\"全部删除成功\"}";
 	public static final String DELETE_CENTER_FAIL = "{\"RESULT\":\"1\",\"ERRORCODE\":\"303\",\"ERRORDESC\":\"部分未删除成功\"}";
-	
+	//设备回调时不存在对应命令名称
+	public static final String CMDNAME_ERROR = "{\"RESULT\":\"1\",\"ERRORCODE\":\"304\",\"ERRORDESC\":\"未找到对应命令名称\"}";
 }

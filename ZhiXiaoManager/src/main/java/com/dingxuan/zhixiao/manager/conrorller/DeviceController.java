@@ -195,7 +195,8 @@ public class DeviceController {
 	@RequestMapping(value = "/PushSchoolCenter", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String PushSchoolCenter(@RequestParam String jsonStr){
-		//String jsonStr = "{\"DEVICENUM\":\"867587050000221\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"10\",\"SCHOOLID\":\"222\",\"SCHOOLRFIDS\":\"0\",\"SCHOOLNAME\":\"test111\",\"OPTTYPE\":\"0\",\"TIMESTAMP\":1531296852}";
+		//String 
+		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"SCHOOLID\":\"1\",\"SCHOOLRFIDS\":\"0\",\"SCHOOLNAME\":\"CESHIXUEXIAO\",\"OPTTYPE\":\"0\",\"TIMESTAMP\":1532336519,\"VERSION\":1}";
 		String jsonResult = null;
 		try{
 			jsonResult = deviceService.PushSchoolCenter(jsonStr);
@@ -210,7 +211,8 @@ public class DeviceController {
 	@RequestMapping(value = "/PushFenceRound", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String PushFenceRound(@RequestParam String jsonStr){
-		//String jsonStr = "{\"DEVICENUM\":\"867587050000221\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"30\",\"FENCEID\":\"1124\",\"FENCETYPE\":\"2\",\"FENCENAME\":\"CESHI\",\"OPTTYPE\":\"0\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"8FA7EDBB330ECED3BC3824FB6A570694\",\"TIMESTAMP\":1531296852}";
+		//String 
+		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"FENCEID\":\"1\",\"FENCETYPE\":\"2\",\"FENCENAME\":\"CESHI11\",\"OPTTYPE\":\"2\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"C24EDC61ADFBAD91BCB1EA12D22F333D\",\"TIMESTAMP\":1532335898}";
 		String jsonResult = null;
 		try{
 			jsonResult = deviceService.PushFenceRound(jsonStr);
@@ -225,7 +227,8 @@ public class DeviceController {
 	@RequestMapping(value = "/PushDeviceFamily", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String PushDeviceFamily(@RequestParam String jsonStr){
-		//String jsonStr = "{\"DEVICENUM\":\"867587050000221\",\"PHONE\":\"15998328177\",\"NAME\":\"OtherUncle\",\"POS\":\"4\",\"FAMILYKEY\":\"4\",\"OPTTYPE\":\"1\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"1F1FE29C418A56C07BAC80F3563ABC5F\",\"TIMESTAMP\":1531383095}";
+		//String 
+		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"PHONE\":\"15998328177\",\"NAME\":\"WWW\",\"POS\":\"2\",\"FAMILYKEY\":\"270ZAX2\",\"OPTTYPE\":\"0\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"61AD6B6F84E221391384BC0062CBE5F1\",\"TIMESTAMP\":1532338220}";
 		String jsonResult = null;
 		try{
 			jsonResult = deviceService.PushDeviceFamily(jsonStr);
@@ -240,6 +243,9 @@ public class DeviceController {
 	@RequestMapping(value = "/PushDevPosInterval", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String PushDevPosInterval(@RequestParam String jsonStr) {
+		//String 
+		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"INTERVAL\":\"30\",\"TIMESTAMP\":1532337777}";
+				
 		String jsonResult = null;
 		try {
 			jsonResult = deviceService.PushDevPosInterval(jsonStr);
@@ -254,6 +260,9 @@ public class DeviceController {
 	@RequestMapping(value = "/PushDevWorkMode", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String PushDevWorkMode(@RequestParam String jsonStr) {
+		//String 
+		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"MODE\":\"1\",\"TIMESTAMP\":1532337990}";
+		
 		String jsonResult = null;
 		try {
 			jsonResult = deviceService.PushDevWorkMode(jsonStr);
@@ -272,7 +281,7 @@ public class DeviceController {
 	
 	
 	/**************************************Begin:对接  知校端  接口**************************************/
-	//将学生与学生证进行绑定0,解绑1,更改2(单一设置)
+	//将学生与学生证进行 绑定0,解绑1,更改2(单一设置)
 	@RequestMapping(value = "/StudentBindingDevice", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String StudentBindingDevice(@RequestParam String jsonStr) {
