@@ -26,4 +26,7 @@ public class CardConstants {
 	public static final String DELETE_CENTER_FAIL = "{\"RESULT\":\"1\",\"ERRORCODE\":\"303\",\"ERRORDESC\":\"部分未删除成功\"}";
 	//设备回调时不存在对应命令名称
 	public static final String CMDNAME_ERROR = "{\"RESULT\":\"1\",\"ERRORCODE\":\"304\",\"ERRORDESC\":\"未找到对应命令名称\"}";
+	//设置学校经纬度时失败
+	public static final String THREAD_ERROR = "{\"RESULT\":\"1\",\"ERRORCODE\":\"401\",\"ERRORDESC\":\"设置学校经纬度失败\"}";
+	
 }

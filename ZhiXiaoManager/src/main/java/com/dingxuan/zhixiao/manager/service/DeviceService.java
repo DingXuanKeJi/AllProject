@@ -26,13 +26,13 @@ public interface DeviceService {
 
 	public String PushSchoolCenter(String jsonStr);
 
-	public String PushFenceRound(String jsonStr);
+	public Map<Object, Object> PushFenceRound(String jsonStr);
 
-	public String PushDeviceFamily(String jsonStr);
+	public Map<Object, Object> PushDeviceFamily(String jsonStr);
 
 	public String PushWriteDeviceResult(String jsonStr);
 
-	public String StudentBindingDevice(String jsonStr);
+	public Map<Object, Object> StudentBindingDevice(String jsonStr);
 
 	public Map<Object, Object> FindStudentDevice(String jsonStr);
 
@@ -44,9 +44,9 @@ public interface DeviceService {
 
 	public List<Map<Object, Object>> ShowDeivceFamily(String jsonStr);
 
-	public String PushDevPosInterval(String jsonStr);
+	public Map<Object, Object> PushDevPosInterval(String jsonStr);
 
-	public String PushDevWorkMode(String jsonStr);
+	public Map<Object, Object> PushDevWorkMode(String jsonStr);
 
 	public Map<Object, Object> ShowDevPosInterval(String jsonStr);
 
@@ -61,6 +61,22 @@ public interface DeviceService {
 	public Map<Object, Object> UpdateSchoolCenterForOld(String jsonStr);
 
 	public Map<Object, Object> DelSchoolCenter(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceFenceWarn(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceLowbat(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceStep(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceCHECK(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceSOS(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceStatic(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceCallnote(String jsonStr);
+
+	public List<Map<Object, Object>> ShowDeviceOverdue(String jsonStr);
 	
 	
 }

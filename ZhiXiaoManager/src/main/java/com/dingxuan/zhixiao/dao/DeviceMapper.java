@@ -110,8 +110,28 @@ public interface DeviceMapper {
 	//回调：设置工作模式
 	void ResultOfPushDevWorkMode(Map<Object, Object> jsonMap);
 
-	
-	
-	
+	//查询电子围栏触发记录
+	List<Map<Object, Object>> ShowDeviceFenceWarn(Map<Object, Object> jsonMap);
+
+	//查询电量不足报警记录
+	List<Map<Object, Object>> ShowDeviceLowbat(Map<Object, Object> jsonMap);
+
+	//查询已推送步数
+	List<Map<Object, Object>> ShowDeviceStep(Map<Object, Object> jsonMap);
+
+	//查询学生考勤记录
+	List<Map<Object, Object>> ShowDeviceCHECK(Map<Object, Object> jsonMap);
+
+	//查询学生SOS求救记录
+	List<Map<Object, Object>> ShowDeviceSOS(Map<Object, Object> jsonMap);
+
+	//查询设备脱落上报
+	List<Map<Object, Object>> ShowDeviceStatic(Map<Object, Object> jsonMap);
+
+	//查询设备通话记录
+	List<Map<Object, Object>> ShowDeviceCallnote(Map<Object, Object> jsonMap);
+
+	//查询欠费短信提醒
+	List<Map<Object, Object>> ShowDeviceOverdue(Map<Object, Object> jsonMap);
 
 }

@@ -36,5 +36,16 @@ public class DeviceUtil {
 		return map;
 	}
 	
+	//将Map中的KEY全部转为大写
+	public static Map<Object, Object> MapKeyToUpperCase(Map<Object, Object> inMap){
+		Map<Object, Object> outMap = new HashMap<>();
+		for(Object key : inMap.keySet()) {
+			String upperKey = ((String)key).toUpperCase();
+			Object value = inMap.get(key);
+			outMap.put(upperKey, value);
+		}
+		return outMap;
+	}
+	
 	
 }

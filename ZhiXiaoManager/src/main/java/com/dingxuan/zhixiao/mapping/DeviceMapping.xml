@@ -96,42 +96,42 @@
 	
 	<!-- 查询学生对应的设备编号 -->
 	<select id="FindStudentDevice" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_findStudentDevice(#{studentid})}
+		{call device_findStudentDevice(#{STUDENTID})}
 	</select>
 	
 	<!-- 查询设备的最新位置 -->
 	<select id="ShowDeviceCurpos" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showDeviceCurpos(#{devicenum})}
+		{call device_showDeviceCurpos(#{DEVICENUM})}
 	</select>
 	
 	<!-- 查询设备的轨迹 -->
 	<select id="ShowDeviceTrail" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showDeviceTrail(#{devicenum},#{startTime},#{endTime})}
+		{call device_showDeviceTrail(#{DEVICENUM},#{STARTTIME},#{ENDTIME})}
 	</select>
 	
 	<!-- 查询设备所设置的围栏的信息 -->
 	<select id="ShowDeviceFence" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showDeviceFence(#{devicenum})}
+		{call device_showDeviceFence(#{DEVICENUM})}
 	</select>
 	
 	<!-- 查询设备所设置的亲情号信息 -->
 	<select id="ShowDeivceFamily" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showDeivceFamily(#{devicenum})}
+		{call device_showDeivceFamily(#{DEVICENUM})}
 	</select>
 	
 	<!-- 查询设备所设置的上报位置时间间隔-->
 	<select id="ShowDevPosInterval" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showDevPosInterval(#{devicenum})}
+		{call device_showDevPosInterval(#{DEVICENUM})}
 	</select>
 	
 	<!-- 查询设备工作模式 -->
 	<select id="ShowDevWorkMode" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showDevWorkMode(#{devicenum})}
+		{call device_showDevWorkMode(#{DEVICENUM})}
 	</select>
 	
 	<!-- 查询最新的学校位置数据 -->
 	<select id="ShowSchoolCenter" parameterType="map" resultType="map" statementType="CALLABLE">
-		{call device_showSchoolCenter(#{schoolid})}
+		{call device_showSchoolCenter(#{SCHOOLID})}
 	</select>
 	
 	<!-- 根据学校的id查询所有本学校下未被设置过学校位置的设备号 -->
@@ -154,6 +154,46 @@
 		{call device_findStuForDelCenter(#{schoolId})}
 	</select>
 	
+	
+	<!-- 查询电子围栏触发记录 -->
+	<select id="ShowDeviceFenceWarn" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceFenceWarn(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询电量不足报警记录 -->
+	<select id="ShowDeviceLowbat" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceLowbat(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询已推送步数 -->
+	<select id="ShowDeviceStep" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceStep(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询学生考勤记录 -->
+	<select id="ShowDeviceCHECK" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceCHECK(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询学生SOS求救记录 -->
+	<select id="ShowDeviceSOS" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceSOS(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询设备脱落上报 -->
+	<select id="ShowDeviceStatic" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceStatic(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询设备通话记录 -->
+	<select id="ShowDeviceCallnote" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceCallnote(#{DEVICENUM})}
+	</select>
+	
+	<!-- 查询欠费短信提醒 -->
+	<select id="ShowDeviceOverdue" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call device_showDeviceOverdue(#{DEVICENUM})}
+	</select>
 	
 	
 	

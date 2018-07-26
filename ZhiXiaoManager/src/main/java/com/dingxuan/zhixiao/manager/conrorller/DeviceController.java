@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -195,8 +199,7 @@ public class DeviceController {
 	@RequestMapping(value = "/PushSchoolCenter", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String PushSchoolCenter(@RequestParam String jsonStr){
-		//String 
-		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"SCHOOLID\":\"1\",\"SCHOOLRFIDS\":\"0\",\"SCHOOLNAME\":\"CESHIXUEXIAO\",\"OPTTYPE\":\"0\",\"TIMESTAMP\":1532336519,\"VERSION\":1}";
+		//String jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"SCHOOLID\":\"1\",\"SCHOOLRFIDS\":\"0\",\"SCHOOLNAME\":\"CESHIXUEXIAO\",\"OPTTYPE\":\"0\",\"TIMESTAMP\":1532336519,\"VERSION\":1}";
 		String jsonResult = null;
 		try{
 			jsonResult = deviceService.PushSchoolCenter(jsonStr);
@@ -210,15 +213,14 @@ public class DeviceController {
 	//圆形围栏数据设置 PushFenceRound
 	@RequestMapping(value = "/PushFenceRound", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String PushFenceRound(@RequestParam String jsonStr){
-		//String 
-		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"FENCEID\":\"1\",\"FENCETYPE\":\"2\",\"FENCENAME\":\"CESHI11\",\"OPTTYPE\":\"2\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"C24EDC61ADFBAD91BCB1EA12D22F333D\",\"TIMESTAMP\":1532335898}";
-		String jsonResult = null;
+	public Map<Object, Object> PushFenceRound(@RequestParam String jsonStr){
+		//String jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"FENCEID\":\"1\",\"FENCETYPE\":\"2\",\"FENCENAME\":\"CESHI11\",\"OPTTYPE\":\"2\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"C24EDC61ADFBAD91BCB1EA12D22F333D\",\"TIMESTAMP\":1532335898}";
+		Map<Object, Object> jsonResult = null;
 		try{
 			jsonResult = deviceService.PushFenceRound(jsonStr);
 		}catch(Exception e){
 			LOGGER.error(e.getMessage());
-			jsonResult = CardConstants.CONTROLLER_ERROR;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.CONTROLLER_ERROR);
 		}
 		return jsonResult;
 	}
@@ -226,15 +228,14 @@ public class DeviceController {
 	//设置亲情号码数据 PushDeviceFamily
 	@RequestMapping(value = "/PushDeviceFamily", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String PushDeviceFamily(@RequestParam String jsonStr){
-		//String 
-		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"PHONE\":\"15998328177\",\"NAME\":\"WWW\",\"POS\":\"2\",\"FAMILYKEY\":\"270ZAX2\",\"OPTTYPE\":\"0\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"61AD6B6F84E221391384BC0062CBE5F1\",\"TIMESTAMP\":1532338220}";
-		String jsonResult = null;
+	public Map<Object, Object> PushDeviceFamily(@RequestParam String jsonStr){
+		//String jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"PHONE\":\"15998328177\",\"NAME\":\"WWW\",\"POS\":\"2\",\"FAMILYKEY\":\"270ZAX2\",\"OPTTYPE\":\"0\",\"KEY\":\"DLTSKJ\",\"SIGN\":\"61AD6B6F84E221391384BC0062CBE5F1\",\"TIMESTAMP\":1532338220}";
+		Map<Object, Object> jsonResult = null;
 		try{
 			jsonResult = deviceService.PushDeviceFamily(jsonStr);
 		}catch(Exception e){
 			LOGGER.error(e.getMessage());
-			jsonResult = CardConstants.CONTROLLER_ERROR;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.CONTROLLER_ERROR);
 		}
 		return jsonResult;
 	}
@@ -242,16 +243,15 @@ public class DeviceController {
 	//设置设备上报位置的时间间隔
 	@RequestMapping(value = "/PushDevPosInterval", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String PushDevPosInterval(@RequestParam String jsonStr) {
-		//String 
-		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"INTERVAL\":\"30\",\"TIMESTAMP\":1532337777}";
+	public Map<Object, Object> PushDevPosInterval(@RequestParam String jsonStr) {
+		//String jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"INTERVAL\":\"30\",\"TIMESTAMP\":1532337777}";
 				
-		String jsonResult = null;
+		Map<Object, Object> jsonResult = null;
 		try {
 			jsonResult = deviceService.PushDevPosInterval(jsonStr);
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
-			jsonResult = CardConstants.CONTROLLER_ERROR;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.CONTROLLER_ERROR);
 		}
 		return jsonResult;
 	}
@@ -259,16 +259,15 @@ public class DeviceController {
 	//设置设备工作模式
 	@RequestMapping(value = "/PushDevWorkMode", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String PushDevWorkMode(@RequestParam String jsonStr) {
-		//String 
-		jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"MODE\":\"1\",\"TIMESTAMP\":1532337990}";
+	public Map<Object, Object> PushDevWorkMode(@RequestParam String jsonStr) {
+		//String jsonStr = "{\"DEVICENUM\":\"867587050000270\",\"MODE\":\"1\",\"TIMESTAMP\":1532337990}";
 		
-		String jsonResult = null;
+		Map<Object, Object> jsonResult = null;
 		try {
 			jsonResult = deviceService.PushDevWorkMode(jsonStr);
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
-			jsonResult = CardConstants.CONTROLLER_ERROR;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.CONTROLLER_ERROR);
 		}
 		return jsonResult;
 	}
@@ -284,13 +283,13 @@ public class DeviceController {
 	//将学生与学生证进行 绑定0,解绑1,更改2(单一设置)
 	@RequestMapping(value = "/StudentBindingDevice", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String StudentBindingDevice(@RequestParam String jsonStr) {
-		String jsonResult = null;
+	public Map<Object, Object> StudentBindingDevice(@RequestParam String jsonStr) {
+		Map<Object, Object> jsonResult = null;
 		try {
 			jsonResult = deviceService.StudentBindingDevice(jsonStr);
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
-			jsonResult = CardConstants.CONTROLLER_ERROR;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.CONTROLLER_ERROR);
 		}
 		return jsonResult;
 	}
@@ -403,6 +402,7 @@ public class DeviceController {
 	@RequestMapping(value = "/AddSchoolCenterForAll", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<Object, Object> AddSchoolCenterForAll(@RequestParam String jsonStr){
+		jsonStr = "{\"LO\":\"121.600895\",\"LA\":\"38.903636\",\"RADIUS\":\"100\",\"SCHOOLID\":\"6918\",\"SCHOOLRFIDS\":\"0\",\"SCHOOLNAME\":\"ceshiThread\",\"VERSION\":1}";
 		Map<Object, Object> resultMap = null;
 		try{
 			resultMap = deviceService.AddSchoolCenterForAll(jsonStr);
@@ -456,11 +456,134 @@ public class DeviceController {
 	}
 	
 	
+	//查询电子围栏触发记录
+	@RequestMapping(value = "/ShowDeviceFenceWarn", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceFenceWarn(@RequestParam String jsonStr){
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceFenceWarn(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询电量不足报警记录
+	@RequestMapping(value = "/ShowDeviceLowbat", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceLowbat(@RequestParam String jsonStr){
+		//jsonStr = "{\"DEVICENUM\":\"867587050000270\"}";
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceLowbat(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询已推送步数
+	@RequestMapping(value = "/ShowDeviceStep", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceStep(@RequestParam String jsonStr){
+		jsonStr = "{\"DEVICENUM\":\"867587050000270\"}";
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceStep(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询学生考勤记录
+	@RequestMapping(value = "/ShowDeviceCHECK", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceCHECK(@RequestParam String jsonStr){
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceCHECK(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询学生SOS求救记录
+	@RequestMapping(value = "/ShowDeviceSOS", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceSOS(@RequestParam String jsonStr){
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceSOS(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询设备脱落上报
+	@RequestMapping(value = "/ShowDeviceStatic", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceStatic(@RequestParam String jsonStr){
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceStatic(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询设备通话记录
+	@RequestMapping(value = "/ShowDeviceCallnote", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceCallnote(@RequestParam String jsonStr){
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceCallnote(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询欠费短信提醒
+	@RequestMapping(value = "/ShowDeviceOverdue", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Map<Object, Object>> ShowDeviceOverdue(@RequestParam String jsonStr){
+		List<Map<Object, Object>> list = new ArrayList<>();
+		try {
+			list = deviceService.ShowDeviceOverdue(jsonStr);
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+
+	
+		
+		
 	/**************************************End:对接  知校端  接口**************************************/
 	
+	@Autowired
+	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 	
-	
-	
+	AtomicInteger k = new AtomicInteger(0);
+	@RequestMapping(value = "/Test", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String Test(@RequestParam String jsonStr) throws InterruptedException, ExecutionException{
+		//Map<Object, Object> resultMap = null;
+		Future<String> future = null;
+		try{
+			 future = threadPoolTaskExecutor.submit(new com.dingxuan.zhixiao.job.Test(k));
+		}catch(Exception e){
+			LOGGER.error(e.getMessage());
+			//resultMap = DeviceUtil.jsonToMap(CardConstants.CONTROLLER_ERROR);
+		}
+		return future.get().toString();
+	}
 	
 	
 	

@@ -5,13 +5,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.dingxuan.zhixiao.dao.DeviceMapper;
+import com.dingxuan.zhixiao.job.PushSchoolCenterJob;
 import com.dingxuan.zhixiao.manager.service.DeviceService;
 import com.dingxuan.zhixiao.util.CallShangXueLe;
 import com.dingxuan.zhixiao.util.CardConstants;
@@ -28,6 +33,8 @@ public class DeviceServiceImpl implements DeviceService{
 	@Autowired
 	private DeviceMapper deviceMapper;
 	
+	@Autowired
+	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 	
 	/**************************************Begin:对接  平台端  接口**************************************/
 	//JSON模式的String转map方法
@@ -347,32 +354,45 @@ public class DeviceServiceImpl implements DeviceService{
 	 */
 	@Override
 	public String PushSchoolCenter(String jsonStr) {
-		//获取厂商的所属密码
-		String appSecret = deviceMapper.keyVerfication(CardConstants.APP_KEY).get(0);
-		//由前台所得的变量转Map格式
-		Map<Object,Object> jsonMap = jsonToMap(jsonStr);
+		String result = "";
+		Future<String> future = threadPoolTaskExecutor.submit(new PushSchoolCenterJob(jsonStr,deviceMapper));
 		
-		//StringBuffer sb = new StringBuffer(appSecret);
-		String strOrder = "DEVICENUM,LO,LA,RADIUS,SCHOOLID,SCHOOLRFIDS,SCHOOLNAME,OPTTYPE";
-		//将map中的变量进行组装
-		String splicingStr = DeviceUtil.SplicingString(jsonMap, strOrder, appSecret);
-		//MD5得到SIGN
-		String getSign = MD5Util.MD5(splicingStr);
-		getSign.toUpperCase();
-		jsonMap.put("KEY", CardConstants.APP_KEY);
-		jsonMap.put("SIGN", getSign);
-		//将Map转换为json串后再转为String
-		String jsonRes = JSONUtils.toJSONString(jsonMap).toString();
-		//调用平台端的接口，传递数据
-		String platformRes = "";
-		platformRes = CallShangXueLe.callShangxuela(CardConstants.PLATFORM_URL, "PushSchoolCenter", jsonRes);
-		
-		Map<Object,Object> platformMap = jsonToMap(platformRes);
-		if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
-			//判断返回的RESULT = 0 ,即调用成功时,将这组数据同步到知校端DB中 并将返回的String返回给前台，否则将返回的String直接返回给前台
-			deviceMapper.PushSchoolCenter(jsonMap);
+		try {
+			result = future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			result = CardConstants.THREAD_ERROR;
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			result = CardConstants.THREAD_ERROR;
 		}
-		return platformRes;
+		return result;
+//		//获取厂商的所属密码
+//		String appSecret = deviceMapper.keyVerfication(CardConstants.APP_KEY).get(0);
+//		//由前台所得的变量转Map格式
+//		Map<Object,Object> jsonMap = jsonToMap(jsonStr);
+//		
+//		//StringBuffer sb = new StringBuffer(appSecret);
+//		String strOrder = "DEVICENUM,LO,LA,RADIUS,SCHOOLID,SCHOOLRFIDS,SCHOOLNAME,OPTTYPE";
+//		//将map中的变量进行组装
+//		String splicingStr = DeviceUtil.SplicingString(jsonMap, strOrder, appSecret);
+//		//MD5得到SIGN
+//		String getSign = MD5Util.MD5(splicingStr);
+//		getSign.toUpperCase();
+//		jsonMap.put("KEY", CardConstants.APP_KEY);
+//		jsonMap.put("SIGN", getSign);
+//		//将Map转换为json串后再转为String
+//		String jsonRes = JSONUtils.toJSONString(jsonMap).toString();
+//		//调用平台端的接口，传递数据
+//		String platformRes = "";
+//		platformRes = CallShangXueLe.callShangxuela(CardConstants.PLATFORM_URL, "PushSchoolCenter", jsonRes);
+//		
+//		Map<Object,Object> platformMap = jsonToMap(platformRes);
+//		if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
+//			//判断返回的RESULT = 0 ,即调用成功时,将这组数据同步到知校端DB中 并将返回的String返回给前台，否则将返回的String直接返回给前台
+//			deviceMapper.PushSchoolCenter(jsonMap);
+//		}
+//		return platformRes;
 	}
 
 	//设置圆形围栏数据
@@ -381,7 +401,7 @@ public class DeviceServiceImpl implements DeviceService{
 	 * @return 	平台端调用完成后返回的String信息会直接返回给前台
 	 */
 	@Override
-	public String PushFenceRound(String jsonStr) {
+	public Map<Object, Object> PushFenceRound(String jsonStr) {
 		String appSecret = deviceMapper.keyVerfication(CardConstants.APP_KEY).get(0);
 		
 		Map<Object,Object> jsonMap = jsonToMap(jsonStr);
@@ -400,7 +420,7 @@ public class DeviceServiceImpl implements DeviceService{
 		if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
 			deviceMapper.PushFenceRound(jsonMap);
 		}
-		return platformRes;
+		return DeviceUtil.jsonToMap(platformRes);
 	}
 
 	//设置亲情号码数据
@@ -409,7 +429,7 @@ public class DeviceServiceImpl implements DeviceService{
 	 * @return 	平台端调用完成后返回的String信息会直接返回给前台
 	 */
 	@Override
-	public String PushDeviceFamily(String jsonStr) {
+	public Map<Object, Object> PushDeviceFamily(String jsonStr) {
 		String appSecret = deviceMapper.keyVerfication(CardConstants.APP_KEY).get(0);
 		
 		Map<Object,Object> jsonMap = jsonToMap(jsonStr);
@@ -426,12 +446,12 @@ public class DeviceServiceImpl implements DeviceService{
 		if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
 			deviceMapper.PushDeviceFamily(jsonMap);
 		}
-		return platformRes;
+		return DeviceUtil.jsonToMap(platformRes);
 	}
 	
 	//设置设备上报位置的时间间隔
 	@Override
-	public String PushDevPosInterval(String jsonStr) {
+	public Map<Object, Object> PushDevPosInterval(String jsonStr) {
 		String appSecret = deviceMapper.keyVerfication(CardConstants.APP_KEY).get(0);
 		
 		Map<Object,Object> jsonMap = jsonToMap(jsonStr);
@@ -448,12 +468,12 @@ public class DeviceServiceImpl implements DeviceService{
 		if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
 			deviceMapper.PushDevPosInterval(jsonMap);
 		}
-		return platformRes;
+		return DeviceUtil.jsonToMap(platformRes);
 	}
 		
 	//设置设备工作模式
 	@Override
-	public String PushDevWorkMode(String jsonStr) {
+	public Map<Object, Object> PushDevWorkMode(String jsonStr) {
 		String appSecret = deviceMapper.keyVerfication(CardConstants.APP_KEY).get(0);
 		
 		Map<Object,Object> jsonMap = jsonToMap(jsonStr);
@@ -470,7 +490,7 @@ public class DeviceServiceImpl implements DeviceService{
 		if(platformMap.get("RESULT") != null && !platformMap.get("RESULT").equals("null") && platformMap.get("RESULT").equals("0")){
 			deviceMapper.PushDevWorkMode(jsonMap);
 		}
-		return platformRes;
+		return DeviceUtil.jsonToMap(platformRes);
 	}	
 	
 
@@ -481,15 +501,15 @@ public class DeviceServiceImpl implements DeviceService{
 	
 	//将学生与学生证进行绑定0,解绑1,更改2
 	@Override
-	public String StudentBindingDevice(String jsonStr) {
-		String jsonResult = null;
+	public Map<Object, Object> StudentBindingDevice(String jsonStr) {
+		Map<Object, Object> jsonResult = null;
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
 		try {
 			deviceMapper.StudentBindingDevice(jsonMap);
-			jsonResult = CardConstants.RESULT_SUCCESS;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.RESULT_SUCCESS);
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
-			jsonResult = CardConstants.SERVICE_ERROR;
+			jsonResult = DeviceUtil.jsonToMap(CardConstants.SERVICE_ERROR) ;
 		}
 		return jsonResult;
 	}
@@ -502,7 +522,7 @@ public class DeviceServiceImpl implements DeviceService{
 		try {
 			List<Map<Object, Object>> list = deviceMapper.FindStudentDevice(jsonMap);
 			if(list.size() != 0) {
-				resMap = list.get(0);
+				resMap = DeviceUtil.MapKeyToUpperCase(list.get(0));
 			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
@@ -519,7 +539,7 @@ public class DeviceServiceImpl implements DeviceService{
 		try {
 			List<Map<Object, Object>> list = deviceMapper.ShowDeviceCurpos(jsonMap);
 			if(list.size() != 0) {
-				jsonResult = list.get(0);
+				jsonResult = DeviceUtil.MapKeyToUpperCase(list.get(0));
 			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
@@ -534,7 +554,10 @@ public class DeviceServiceImpl implements DeviceService{
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
 		try {
-			list = deviceMapper.ShowDeviceTrail(jsonMap);
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceTrail(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -548,7 +571,10 @@ public class DeviceServiceImpl implements DeviceService{
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
 		try {
-			list = deviceMapper.ShowDeviceFence(jsonMap);
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceFence(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -562,7 +588,10 @@ public class DeviceServiceImpl implements DeviceService{
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
 		try {
-			list = deviceMapper.ShowDeivceFamily(jsonMap);
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeivceFamily(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -578,7 +607,7 @@ public class DeviceServiceImpl implements DeviceService{
 		try {
 			List<Map<Object, Object>> list = deviceMapper.ShowDevPosInterval(jsonMap);
 			if(list.size() != 0) {
-				resMap = list.get(0);
+				resMap = DeviceUtil.MapKeyToUpperCase(list.get(0));
 			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
@@ -595,7 +624,7 @@ public class DeviceServiceImpl implements DeviceService{
 		try {
 			List<Map<Object, Object>> list = deviceMapper.ShowDevWorkMode(jsonMap);
 			if(list.size() != 0) {
-				resMap = list.get(0);
+				resMap = DeviceUtil.MapKeyToUpperCase(list.get(0));
 			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
@@ -613,7 +642,7 @@ public class DeviceServiceImpl implements DeviceService{
 		try {
 			List<Map<Object, Object>> list = deviceMapper.ShowSchoolCenter(jsonMap);
 			if(list.size() != 0) {
-				resultMap = list.get(0);
+				resultMap = DeviceUtil.MapKeyToUpperCase(list.get(0));
 			}
 		}catch(Exception e) {
 			LOGGER.error(e.getMessage());
@@ -621,6 +650,7 @@ public class DeviceServiceImpl implements DeviceService{
 		return resultMap;
 	}
 	
+	private AtomicInteger j = new AtomicInteger(0);
 	//添加  学校经纬度（按学校设置）
 	@Override
 	public Map<Object, Object> AddSchoolCenterForAll(String jsonStr) {
@@ -628,7 +658,8 @@ public class DeviceServiceImpl implements DeviceService{
 		int failNum = 0;
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
-		Integer schoolId = (Integer) jsonMap.get("schoolid");
+		Integer schoolId = Integer.parseInt((String) jsonMap.get("SCHOOLID"));
+		System.out.println(j.addAndGet(1));
 		//根据学校的id查询所有本学校下未被设置过学校位置的设备号
 		List<String> deviceList = deviceMapper.FindStudentForPushCenter(schoolId);
 		for(int i = 0;i < deviceList.size(); i++) {			//循环所有的DEVICENUM
@@ -663,7 +694,7 @@ public class DeviceServiceImpl implements DeviceService{
 		int failNum = 0;
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
-		Integer schoolId = (Integer) jsonMap.get("schoolid");
+		Integer schoolId = Integer.parseInt((String) jsonMap.get("SCHOOLID"));
 		//根据学校id查询所有本学校下已设置过学校位置的设备号
 		List<String> deviceList = deviceMapper.FindStuForUpdateCenterVersion(schoolId);
 		for(int i = 0;i < deviceList.size(); i++) {			//循环所有的DEVICENUM
@@ -698,7 +729,7 @@ public class DeviceServiceImpl implements DeviceService{
 		int failNum = 0;
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
-		Integer schoolId = (Integer) jsonMap.get("schoolid");
+		Integer schoolId = Integer.parseInt((String) jsonMap.get("SCHOOLID"));
 		//根据学校id查询所有本学校下已设置过学校位置 但非最新版本的设备号
 		List<String> deviceList = deviceMapper.FindStuForUpdateCenterToNewest(schoolId);
 		for(int i = 0;i < deviceList.size(); i++) {			//循环所有的DEVICENUM
@@ -733,7 +764,7 @@ public class DeviceServiceImpl implements DeviceService{
 		int failNum = 0;
 		
 		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
-		Integer schoolId = (Integer) jsonMap.get("schoolid");
+		Integer schoolId = Integer.parseInt((String) jsonMap.get("SCHOOLID"));
 		//根据学校id查询所有本学校下已设置过学校位置而且是最新版本的设备号
 		List<String> deviceList = deviceMapper.FindStuForDelCenter(schoolId);
 		for(int i = 0;i < deviceList.size(); i++) {			//循环所有的DEVICENUM
@@ -759,6 +790,144 @@ public class DeviceServiceImpl implements DeviceService{
 			resultMap.put("FAILNUM", failNum);
 		}
 		return resultMap;
+	}
+	
+	
+	//查询电子围栏触发记录
+	@Override
+	public List<Map<Object, Object>> ShowDeviceFenceWarn(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceFenceWarn(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询电量不足报警记录
+	@Override
+	public List<Map<Object, Object>> ShowDeviceLowbat(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceLowbat(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	//查询已推送步数
+	@Override
+	public List<Map<Object, Object>> ShowDeviceStep(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceStep(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询学生考勤记录
+	@Override
+	public List<Map<Object, Object>> ShowDeviceCHECK(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceCHECK(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询学生SOS求救记录
+	@Override
+	public List<Map<Object, Object>> ShowDeviceSOS(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceSOS(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询设备脱落上报
+	@Override
+	public List<Map<Object, Object>> ShowDeviceStatic(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceStatic(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询设备通话记录
+	@Override
+	public List<Map<Object, Object>> ShowDeviceCallnote(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceCallnote(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
+	}
+	
+	//查询欠费短信提醒
+	@Override
+	public List<Map<Object, Object>> ShowDeviceOverdue(String jsonStr) {
+		List<Map<Object, Object>> list = new ArrayList<>();
+		
+		Map<Object, Object> jsonMap = jsonToMap(jsonStr);
+		try {
+			List<Map<Object, Object>> tempList = deviceMapper.ShowDeviceOverdue(jsonMap);
+			for(int i = 0; i < tempList.size(); i++) {
+				list.add(DeviceUtil.MapKeyToUpperCase(tempList.get(i)));
+			}
+		}catch(Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return list;
 	}
 	
 	

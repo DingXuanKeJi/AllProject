@@ -16,23 +16,16 @@ public class ThreadPoolTask implements Callable<String>, Serializable {
 		this.threadPoolTaskData = task;
 	}
 	
-	public synchronized String call() throws Exception{
+	public String call() throws Exception{
 		//此处处理一个任务
 		System.out.println("开始执行任务：" + threadPoolTaskData);
-		
-		String result = "";
 		try {
-			
-//			for(int i = 0;i<100; i++) {
-//				//System.out.println("aaa"+threadPoolTaskData);
-//				//此处为了拉长时间，进行观察
-//			}
-			result = "OK";
-		}catch(Exception e) {
+			Thread.currentThread().sleep(20);
+		}catch(InterruptedException e) {
 			e.printStackTrace();
-			result = "ERROR";
+			Thread.currentThread().interrupt();
 		}
-		threadPoolTaskData = null;
+		String result = "OK";
 		return result;
 	}
 

@@ -1,5 +1,10 @@
 package com.dingxuan.zhixiao.manager.service.ThreadTest;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +19,7 @@ public class TestThreadPool extends AbstractJUnit4SpringContextTests {
 
 	private static int produceTaskSleepTime = 10;
 	
-	private static int produceTaskMaxNumber = 100;
+	private static int produceTaskMaxNumber = 1;
 	
 	@Autowired
 	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -35,7 +40,17 @@ public class TestThreadPool extends AbstractJUnit4SpringContextTests {
 //			}catch(InterruptedException e) {
 //				e.printStackTrace();
 //			}
-			new Thread(new StartTaskThread(threadPoolTaskExecutor,i)).start();
+//			new Thread(
+					try {
+						new StartTaskThread(threadPoolTaskExecutor,i).test();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//					).start();
 		}
 	}
 }
