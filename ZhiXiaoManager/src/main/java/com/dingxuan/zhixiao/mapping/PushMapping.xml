@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dingxuan.zhixiao.dao.PushMessageMapper" >
+	
+	<!-- 	根据appcert 与 sid 查询   apiKey secretKey 值 -->
+	<select id="selectPushKey" resultType="map">
+	    select  api_key,secret_key from uchome_app_pushkey
+	    where sid = #{sid}
+	    and appcert = #{appcert}
+	 </select>
+  
+ 	<!-- 	设置推送参数,(定时推送功能,增加). -->
+	<select id="addPushParam" parameterType="map" resultType="map" statementType="CALLABLE">
+		 {call timerPush_addPushParam(#{title},#{description},#{messageType},#{sid},#{appcert},#{channelIds},#{tagName},#{identification},#{sendTime},#{open_type},#{url})} 
+	</select>
+	 
+  <!-- 删除定时推送(定时推送功能,根据Id删除) -->
+  <select id="deletePushById" parameterType="map" resultType="map" statementType="CALLABLE">
+  		{call timerPush_deletePushById(#{id})}
+  </select>
+  
+  	<!-- 根据Id与 identification修改    -->
+	<select id="updatePushParam" parameterType="map" resultType="map" statementType="CALLABLE">
+		{call timerPush_updatePushParam(#{id},#{title},#{description},#{messageType},#{sid},#{appcert},#{channelIds},#{tagName},#{identification},#{sendTime},#{open_type},#{url})}
+	</select> 
+  
+  <!-- 根据 title 与 identification 条件查询 模糊查询  -->
+  <select id="queryPushParam" parameterType="map" resultType="map" statementType="CALLABLE">
+  		{call timerPush_queryPushParam(#{titles},#{identification})}
+  </select>
+  
+  <!-- 查询从当前时间开始,按当前时间排序  -->
+  <select id="queryDateTime" resultType="map" statementType="CALLABLE">
+		{call timerPush_queryDateTime()}
+  </select>
+  
+  
+  
+  
+  
+</mapper>
